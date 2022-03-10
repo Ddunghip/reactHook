@@ -1,8 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import Nav from './views/Nav';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Todo from './views/Todo';
+import Covid from './views/Covid';
 // template + logic
 // jsx
 function App() {
@@ -19,6 +20,10 @@ function App() {
 
   ]);
 
+  useEffect(() => {
+    console.log('run use effect');
+  }, [address])
+
   const handleEvenClick = (event) => {
 
     //hooke not merge state
@@ -29,12 +34,21 @@ function App() {
       return;
     }
 
-    let todo = { id: counter, title: address, type: 'hip' }
+    let todo = {
+      id: Math.floor((Math.random() * 100) + 1)
+      , title: address, type: 'hip'
+    }
     setTodos([...todos, todo]);
     setAddress('')
   }
   const handleOnchangeInput = (event) => {
     setAddress(event.target.value)
+  }
+
+  const deleteDataTodo = (id) => {
+    let currentTodos = todos;
+    currentTodos = currentTodos.filter(item => item.id !== id)
+    setTodos(currentTodos)
   }
 
   return (
@@ -44,18 +58,25 @@ function App() {
 
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello {name} {address}</h1>
-        <Todo
+        <Covid />
+        {/* <Todo
           myData={todos}
           title='all todos'
+          deleteDataTodo={deleteDataTodo}
         />
         <Todo
           myData={todos.filter(item => item.type === 'hip')}
           title='hip todos'
+          deleteDataTodo={deleteDataTodo}
+
         />
 
         <a href={link} target='_blank'>Click me</a>
         <input type='text' value={address} onChange={(event) => handleOnchangeInput(event)} ></input>
-        <button type='button' onClick={(event) => { handleEvenClick(event) }}>CLick me</button>
+        <button type='button' onClick={(event) => { handleEvenClick(event) }}>CLick me</button> */}
+
+
+
       </header>
     </div>
   );
