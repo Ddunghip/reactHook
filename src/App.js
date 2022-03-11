@@ -4,6 +4,8 @@ import Nav from './views/Nav';
 import { useState, useEffect } from 'react';
 import Todo from './views/Todo';
 import Covid from './views/Covid';
+import { Countdown, NewCountDown } from './views/Countdown';
+import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
 // template + logic
 // jsx
 function App() {
@@ -51,15 +53,55 @@ function App() {
     setTodos(currentTodos)
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Nav />
+  const onTimesUp = () => {
+    alert('times up')
+  }
 
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>Hello {name} {address}</h1>
-        <Covid />
-        {/* <Todo
+  return (
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <Nav />
+
+          <img src={logo} className="App-logo" alt="logo" />
+
+
+          <Switch>
+            <Route path='/' exact={true}>
+              <Covid />
+            </Route>
+            <Route path='/countdown'>
+              <Countdown onTimesUp={onTimesUp} />
+              <NewCountDown onTimesUp={onTimesUp} />
+            </Route>
+            <Route path='/todo' exact={true}>
+
+              <Todo
+                myData={todos}
+                title='all todos'
+                deleteDataTodo={deleteDataTodo}
+              />
+              <Todo
+                myData={todos.filter(item => item.type === 'hip')}
+                title='hip todos'
+                deleteDataTodo={deleteDataTodo}
+
+              />
+
+              <a href={link} target='_blank'>Click me</a>
+              <input type='text' value={address} onChange={(event) => handleOnchangeInput(event)} ></input>
+              <button type='button' onClick={(event) => { handleEvenClick(event) }}>CLick me</button>
+
+            </Route>
+          </Switch>
+
+          {/* <Countdown onTimesUp={onTimesUp} />
+          <span>-------------------</span>
+          <NewCountDown onTimesUp={onTimesUp} />
+          <h1>Hello {name} {address}</h1>
+          <Covid /> */}
+
+          {/* <Todo
           myData={todos}
           title='all todos'
           deleteDataTodo={deleteDataTodo}
@@ -77,10 +119,14 @@ function App() {
 
 
 
-      </header>
-    </div>
+        </header>
+      </div>
+    </Router>
+
   );
 }
 
 
 export default App;
+
+

@@ -1,39 +1,23 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import moment from 'moment';
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import moment from 'moment';
+import moment from "moment";
+import useFetch from "../customize/fetch";
+
 const Covid = () => {
 
-
-    const [dataCovid, setDataCovid] = useState([])
+    // set real time    
+    let d = new Date().toISOString().slice(0, 10);
+    const u = new Date();
+    const month = u.getMonth();
+    u.setMonth(u.getMonth() - 1);
+    // while (u.getMonth() === month) {
+    //     u.setDate(u.getDate() - 1);
+    // }
+    let y = moment().subtract(30, 'days')
     //2022-02-10T00
-    useEffect(async () => {
-        let d = new Date().toISOString().slice(0, 10);
-
-        const u = new Date();
-        const month = u.getMonth();
-        u.setMonth(u.getMonth() - 1);
-        while (u.getMonth() === month) {
-            u.setDate(u.getDate() - 1);
-        }
-        // console.log('hêre', u.toISOString().slice(0, 10));
-
-        let res = await axios.get(`https://api.covid19api.com/country/vietnam?from=${u}%3A00%3A00Z&to=${d}T00%3A00%3A00Z`);
-        let data = res && res.data ? res.data : [];
-
-
-        if (data && data.lenght > 0) {
-            data.map(item => {
-                item.Date = moment(item.Date).format('DD/MM/YYYY')
-                return item;
-            })
-
-
-        }
-
-        setDataCovid(data.reverse())
-
-    }, [])// = Didmount
-
+    const { data: dataCovid, loading, isError } = useFetch(`https://api.covid19api.com/country/vietnam?from=${y}%3A00%3A00Z&to=${d}T00%3A00%3A00Z`)
+    // let dataCovid = useFetch(url).data
     return (
         <>
             <h3>Covid Tracking</h3>
@@ -51,7 +35,7 @@ const Covid = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {dataCovid && dataCovid.length > 0 &&
+                    {isError === false && loading === false && dataCovid && dataCovid.length > 0 &&
                         dataCovid.map(item => {
                             return (
                                 <tr key={item.ID}>
@@ -64,6 +48,17 @@ const Covid = () => {
                                 </tr>
                             )
                         })}
+                    {loading === true &&
+                        <tr><td colSpan='5' style={{ 'textAlign': 'center' }}>
+                            Loading...
+                        </td>
+                        </tr>
+                    }
+                    {isError === true &&
+                        <tr><td colSpan='5' style={{ 'textAlign': 'center' }}>
+                            Somthing Wrong..                        </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </>
