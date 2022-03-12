@@ -8,9 +8,11 @@ const Nav = () => {
                 <a href="#news">TimerApps</a>
                 <a href="#contact">Todo Apps</a>
                 <a href="#about">About</a> */}
-                <NavLink to='/' exact>Home</NavLink>
-                <NavLink to='/countdown'>TimerApps</NavLink>
-                <NavLink to='/todo'>Todo Apps</NavLink>
+                <NavLink activeClassName='active1' to='/' exact>Home</NavLink>
+                <NavLink activeClassName='active1' to='/countdown'>TimerApps</NavLink>
+                <NavLink activeClassName='active1' to='/todo'>Todo Apps</NavLink>
+                <NavLink activeClassName='active1' to='/blog'>Blog Apps</NavLink>
+
                 {/* <NavLink>About</NavLink> */}
 
 

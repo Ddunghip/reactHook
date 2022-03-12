@@ -5,6 +5,13 @@ class Countdown extends React.Component {
     state = {
         count: 5
     }
+
+    componentWillUnmount() {
+        if (this.timer) {
+            clearInterval(this.timer)
+        }
+    }
+
     componentDidMount() {
         // setTimeout(()=>{
 

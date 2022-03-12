@@ -7,23 +7,26 @@ import useFetch from "../customize/fetch";
 const Covid = () => {
 
     // set real time    
-    let d = new Date().toISOString().slice(0, 10);
-    const u = new Date();
-    const month = u.getMonth();
-    u.setMonth(u.getMonth() - 1);
+
+    let today = moment().startOf('day').toISOString(true);
+    let priorDate = moment().startOf('day').subtract(31, 'days').toISOString(true);
+
+    // let d = new Date().toISOString().slice(0, 10);
+    // const u = new Date();
+    // const month = u.getMonth();
+    // u.setMonth(u.getMonth() - 1);
     // while (u.getMonth() === month) {
     //     u.setDate(u.getDate() - 1);
     // }
-    let y = moment().subtract(30, 'days')
+    // let y = moment().subtract(30, 'days')
     //2022-02-10T00
-    const { data: dataCovid, loading, isError } = useFetch(`https://api.covid19api.com/country/vietnam?from=${y}%3A00%3A00Z&to=${d}T00%3A00%3A00Z`)
+    const { data: dataCovid, loading, isError } = useFetch(`https://api.covid19api.com/country/vietnam?from=${priorDate}%3A00%3A00Z&to=${today}T00%3A00%3A00Z`, true)
     // let dataCovid = useFetch(url).data
     return (
         <>
             <h3>Covid Tracking</h3>
 
             <table>
-                {console.log('check data covid', dataCovid)}
                 <thead>
                     <tr>
                         <th>Date</th>

@@ -6,6 +6,10 @@ import Todo from './views/Todo';
 import Covid from './views/Covid';
 import { Countdown, NewCountDown } from './views/Countdown';
 import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
+import Blog from './views/Blog';
+import DetailBlog from './views/DetailBlog';
+
+
 // template + logic
 // jsx
 function App() {
@@ -92,6 +96,12 @@ function App() {
               <input type='text' value={address} onChange={(event) => handleOnchangeInput(event)} ></input>
               <button type='button' onClick={(event) => { handleEvenClick(event) }}>CLick me</button>
 
+            </Route>
+            <Route path='/blog' exact>
+              <Blog />
+            </Route>
+            <Route path='/blog/:id' >
+              <DetailBlog />
             </Route>
           </Switch>
 
